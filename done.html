@@ -2,9 +2,10 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>편지 맡기기 | 수취인 불명</title>
+  <title>전송 완료 | 수취인 불명</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- 서체 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
 
   <style>
@@ -26,11 +27,14 @@
 
     .box {
       width: 100%;
-      padding: 56px 48px;
+      padding: 72px 56px;
       background: rgba(255,255,255,0.72);
       backdrop-filter: blur(6px);
       border-radius: 18px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+      box-shadow:
+        0 8px 24px rgba(0,0,0,0.04),
+        0 1px 3px rgba(0,0,0,0.05);
+      text-align: center;
     }
 
     .title {
@@ -39,169 +43,61 @@
       margin-bottom: 40px;
     }
 
-    .field {
-      margin-bottom: 36px;
-      padding: 22px;
-      background: rgba(255,255,255,0.6);
-      border-radius: 12px;
-    }
-
-    label {
-      font-size: 15px;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .hint {
-      font-size: 13px;
-      color: #777;
-      margin-bottom: 12px;
-      line-height: 1.6;
-    }
-
-    input, textarea {
-      width: 100%;
-      font-family: inherit;
-      font-size: 16px;
-      padding: 10px 0;
-      border: none;
-      border-bottom: 1px solid #ddd;
-      background: transparent;
-    }
-
-    textarea {
-      min-height: 200px;
-      resize: vertical;
-      line-height: 1.8;
-    }
-
-    .char-count {
-      margin-top: 6px;
-      font-size: 13px;
-      color: #777;
-      text-align: right;
-    }
-
-    .note {
-      font-size: 13px;
-      line-height: 1.7;
-      color: #666;
-      margin-top: 28px;
+    .message {
+      font-size: 17px;
+      line-height: 1.9;
+      color: #222;
     }
 
     .cta {
-      margin-top: 36px;
+      margin-top: 56px;
     }
 
-    button {
-      font-family: inherit;
-      font-size: 16px;
-      background: none;
-      border: none;
-      color: #555;
-      cursor: pointer;
-    }
-
-    .loading {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(250,250,250,0.9);
-      backdrop-filter: blur(4px);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
+    .cta a {
       font-size: 15px;
       color: #555;
-      letter-spacing: 0.1em;
+      text-decoration: none;
     }
 
-    .loading.active {
-      display: flex;
+    .cta a:hover {
+      border-bottom: 1px solid #555;
     }
 
     @media (max-width: 480px) {
-      .wrap { padding: 24px 14px; }
-      .box { padding: 40px 24px; }
-      .title { font-size: 20px; }
+      .box {
+        padding: 48px 28px;
+      }
+
+      .title {
+        font-size: 20px;
+      }
+
+      .message {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<div class="loading" id="loading">편지를 맡기는 중입니다…</div>
+  <div class="wrap">
+    <div class="box">
 
-<div class="wrap">
-  <div class="box">
-    <div class="title">수취인 불명</div>
+      <div class="title">수취인 불명</div>
 
-    <form id="letterForm">
-      <div class="field">
-        <label>받는 사람</label>
-        <div class="hint">실제 사람 이름은 사용할 수 없습니다.</div>
-        <input id="to" required placeholder="너에게">
-      </div>
-
-      <div class="field">
-        <label>보내는 사람</label>
-        <div class="hint">‘나’, ‘익명’, ‘첫사랑’처럼 적어주세요.</div>
-        <input id="from" required placeholder="나">
-      </div>
-
-      <div class="field">
-        <label>편지</label>
-        <div class="hint">메모장에 먼저 작성 후 붙여넣기를 권장합니다.</div>
-        <textarea id="letter" maxlength="4000" required></textarea>
-        <div class="char-count">
-          <span id="count">0</span> / 4000자
-        </div>
-      </div>
-
-      <div class="note">
-        ※ 작성된 편지는 운영자의 선택에 따라 공개될 수 있으며<br>
-        한 번 공개된 편지는 삭제가 어렵습니다.
-      </div>
+      <p class="message">
+        편지가 무사히 맡겨졌습니다.<br>
+        전하지 못한 마음은<br>
+        이곳에 남아 있습니다.
+      </p>
 
       <div class="cta">
-        <button type="submit">→ 편지 맡기기</button>
+        <a href="index.html">← 처음으로 돌아가기</a>
       </div>
-    </form>
+
+    </div>
   </div>
-</div>
-
-<script>
-  const form = document.getElementById("letterForm");
-  const loading = document.getElementById("loading");
-  const textarea = document.getElementById("letter");
-  const count = document.getElementById("count");
-
-  textarea.addEventListener("input", () => {
-    count.textContent = textarea.value.length;
-  });
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    loading.classList.add("active");
-
-    const data = {
-      to: document.getElementById("to").value,
-      from: document.getElementById("from").value,
-      letter: textarea.value
-    };
-
-    try {
-      await fetch("https://script.google.com/macros/s/AKfycbx9Kni4bc4CNF2qdpa8s80bX0S0Yxibu0yZ7O8VnMxiYpzO-HvWsxXXuqRy_yNxipRL/exec", {
-        method: "POST",
-        body: JSON.stringify(data)
-      });
-      location.href = "done.html";
-    } catch {
-      alert("전송 중 오류가 발생했습니다.");
-      loading.classList.remove("active");
-    }
-  });
-</script>
 
 </body>
 </html>
