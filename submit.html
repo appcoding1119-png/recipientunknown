@@ -211,16 +211,15 @@
     };
 
     try {
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbw3c9zWpNtfLCpnvf4UK5m2-aCZBjk_8cX-PwbMxIO0EzzvDKOqowvAPOHcBeKuFI-t/exec",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        }
-      );
+     await fetch(
+  "https://script.google.com/macros/s/AKfycbw59tiKhHIy2uOjI5MtwcYw_hlC3D7kzU4-OyIEr1RR4TYq2khn2j1pmcTSkOBDCXtK/exec",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }
+);
+
     } catch (err) {
       console.error(err);
     }
@@ -231,3 +230,4 @@
 
 </body>
 </html>
+
